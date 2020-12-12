@@ -1,15 +1,13 @@
-// Create variables targetting the relevant DOM elements here 👇
-
-
 // We've provided a few variables below
-// var savedCovers = [
-//   new Cover("http://3.bp.blogspot.com/-iE4p9grvfpQ/VSfZT0vH2UI/AAAAAAAANq8/wwQZssi-V5g/s1600/Do%2BNot%2BForsake%2BMe%2B-%2BImage.jpg", "Sunsets and Sorrows", "sunsets", "sorrows")
-// ];
+var savedCovers = [
+  new Cover("http://3.bp.blogspot.com/-iE4p9grvfpQ/VSfZT0vH2UI/AAAAAAAANq8/wwQZssi-V5g/s1600/Do%2BNot%2BForsake%2BMe%2B-%2BImage.jpg", "Sunsets and Sorrows", "sunsets", "sorrows")
+];
 // var currentCover;
 var mainImage = document.querySelector('.cover-image');
 var title = document.querySelector('.cover-title');
 var descriptor1 = document.querySelector('.tagline-1');
 var descriptor2 = document.querySelector('.tagline-2');
+
 // Add your event listeners here 👇
 document.querySelector('.random-cover-button').addEventListener('click', function(){
   var randomCover = createRandomCover();
@@ -20,9 +18,7 @@ document.querySelector('.random-cover-button').addEventListener('click', functio
   descriptor2.innerHTML = randomCover.tagline2;
 });
 
-
 // Create your event handlers and other functions here 👇
-
 function getRandomIndex(covers) {
   return Math.floor(Math.random() * covers.length);
 }
@@ -35,7 +31,6 @@ function createRandomCover(){
   var randomCover = new Cover(randomImage, randomTitle, randomDescriptor1, randomDescriptor2)
   return randomCover
 }
-
 
 //Change visibility of the form
 document.querySelector('.make-new-button').addEventListener('click',function(){
@@ -55,6 +50,7 @@ document.querySelector('.view-saved-button').addEventListener('click',function()
   document.getElementsByClassName('view form-view hidden')[0].style.display = 'none';
   document.getElementsByClassName('saved-covers-section')[0].style.display = 'block';
 })
+
 //Home button, iteration 2 
 document.querySelector('.home-button').addEventListener('click',function(){
   document.getElementsByClassName('random-cover-button')[0].style.display = 'block';
@@ -65,14 +61,7 @@ document.querySelector('.home-button').addEventListener('click',function(){
   document.getElementsByClassName('saved-covers-section')[0].style.display = 'none';
 })
 
-//Create a new cover  
-
-// 1. Save the submitted data into the respective arrays (cover URL into the covers array, title string into the titles array, etc) so that future random covers can use the user-created data (Y)
-// 2. Use the values from the inputs to create a new instance of the Cover class (Y)
-// 3. Change back to the main home view (hiding the form view again) (Y)
-// 4. Display the newly created cover image, title, and descriptors in the main cover
-
-
+//Create a new cover, iteration 3  
 var myCover = document.querySelector('.user-cover');
 var newTitle = document.querySelector('.user-title');
 var descOne = document.querySelector('.user-desc1');
@@ -87,7 +76,6 @@ makeBookButton.addEventListener('click', function(event) {
   covers.push(newCover.cover);
   titles.push(newCover.title);
   descriptors.push(newCover.tagline1, newCover.tagline2);
-  // console.log(descriptors)
   document.getElementsByClassName('view home-view')[0].style.display = 'block';
   document.getElementsByClassName('view form-view hidden')[0].style.display = 'none';
   
@@ -96,9 +84,46 @@ makeBookButton.addEventListener('click', function(event) {
   mainDescOne.innerHTML = newCover.tagline1
   mainDescTwo.innerHTML = newCover.tagline2
  
-
   event.preventDefault();
 });
+
+
+//Saving and Viewing Covers, iteration 4
+////////////////////////////////////////////
+// 1. When a user clicks the “Save Cover” button, the current cover will be added to the savedCovers array
+
+// 2. If a user clicks the “Save Cover” more than once on a single cover, it will still only be saved once (no duplicates)
+// verify it doesn't exist before pushin
+
+// 3. When a user clicks the “View Saved Covers” button, we should see the saved covers section
+// 4. All the covers in the savedCovers array should be displayed in the saved covers section
+
+var mainCover = document.querySelector('.cover-image');
+var mainTitle = document.querySelector('.cover-title');
+var mainTag1 = document.querySelector('.tagline-1');
+var mainTag2 = document.querySelector('.tagline-2');
+
+document.querySelector('.save-cover-button').addEventListener('click',function() {
+  console.log(savedCovers)
+  var homeCover = new Cover(mainCover.src, mainTitle.innerHTML, mainTag1.innerHTML, mainTag2.innerHTML);
+  var duplicate = false;
+
+  for (var i = 0; i < savedCovers.length; i++) { 
+    if (savedCovers[i].cover === homeCover.cover &&
+        savedCovers[i].title === homeCover.title &&
+        savedCovers[i].tagline1 === homeCover.tagline1 &&
+        savedCovers[i].tagline2 === homeCover.tagline2)
+    {
+      duplicate = true
+      break
+    }
+  }
+
+  if (duplicate === false) {
+    savedCovers.push(homeCover)
+  }
+})
+
 
 
 
